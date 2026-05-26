@@ -9,273 +9,147 @@ html{
 }
 
 body{
+    font-family:'Cormorant Garamond', serif;
+
+    min-height:100vh;
+    width:100%;
+
+    overflow-x:hidden;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
 
     background:
     linear-gradient(rgba(255,255,255,0.65),
     rgba(255,255,255,0.65)),
-
     url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop');
 
     background-size:cover;
     background-position:center;
-    background-attachment:fixed;
 
-    min-height:100vh;
-
-    overflow-x:hidden;
-
-    font-family:'Cormorant Garamond', serif;
-
-    padding:40px 20px;
+    /* IMPORTANT FIX for mobile stability */
+    background-attachment:scroll;
 }
 
-/* Scrollbar */
-
-::-webkit-scrollbar{
-    width:10px;
-}
-
-::-webkit-scrollbar-thumb{
-    background:#b89b7a;
-    border-radius:20px;
-}
-
-::-webkit-scrollbar-track{
-    background:#f5eee6;
-}
-
-/* Container */
-
+/* CONTAINER FIX */
 .container{
     width:100%;
-    min-height:100vh;
-
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
-/* Card */
-
+/* CARD - FLUID & STABLE */
 .card{
 
     width:100%;
-    max-width:700px;
+    max-width:650px;
 
     background:rgba(255,255,255,0.88);
     backdrop-filter:blur(8px);
 
-    padding:80px 40px;
+    padding:clamp(30px, 6vw, 80px);
 
-    border-radius:35px;
+    border-radius:30px;
 
     text-align:center;
 
     box-shadow:0 15px 40px rgba(0,0,0,0.15);
 
-    animation:fadeIn 2s ease;
+    animation:fadeIn 1.5s ease;
 }
 
-/* Text */
+/* TEXT — FLUID SCALING (NO BREAKING) */
 
 .invite{
-    font-size:24px;
+    font-size:clamp(16px, 2.5vw, 24px);
     color:#9b7c63;
-    margin-bottom:25px;
     letter-spacing:2px;
+    margin-bottom:20px;
 }
 
 h1{
-    font-size:78px;
+    font-size:clamp(34px, 6vw, 78px);
     color:#7b5d46;
     font-weight:600;
     line-height:1.1;
 }
 
 .and{
-    font-size:55px;
+    font-size:clamp(28px, 5vw, 55px);
     color:#b89b7a;
     margin:10px 0;
 }
 
 .text{
-    margin-top:25px;
-    font-size:30px;
+    font-size:clamp(16px, 3.5vw, 30px);
     color:#6d5745;
-    line-height:1.6;
+    line-height:1.5;
+    margin-top:20px;
 }
 
 h2{
-    font-size:42px;
+    font-size:clamp(22px, 4.5vw, 42px);
     color:#7a624c;
-    margin-bottom:20px;
+    margin-top:20px;
 }
 
 .details{
-    font-size:28px;
+    font-size:clamp(16px, 3vw, 28px);
     color:#876f59;
-    margin-top:12px;
+    margin-top:10px;
 }
 
-/* Button */
-
-a{
-    text-decoration:none;
-}
-
+/* BUTTON FIX */
 button{
+    margin-top:30px;
 
-    margin-top:45px;
-
-    padding:18px 50px;
+    padding:clamp(12px, 3vw, 18px) clamp(25px, 6vw, 50px);
 
     border:none;
-
     border-radius:50px;
 
     background:#b89b7a;
-
     color:white;
 
-    font-size:24px;
+    font-size:clamp(16px, 3.5vw, 24px);
 
     cursor:pointer;
 
-    transition:0.4s;
+    transition:0.3s;
+
+    width:fit-content;
+    max-width:100%;
 }
 
 button:hover{
-    transform:scale(1.07);
+    transform:scale(1.05);
     background:#9f8263;
 }
 
-/* Hearts */
-
+/* HEARTS SAFE ON ALL SCREENS */
 .hearts span{
     position:fixed;
     bottom:-100px;
+
     color:rgba(184,155,122,0.35);
-    font-size:35px;
-    animation:float 12s linear infinite;
+
+    font-size:24px;
+
+    animation:float 10s linear infinite;
 }
 
-/* keep your heart positions same */
-.hearts span:nth-child(1){ left:10%; animation-duration:8s; }
-.hearts span:nth-child(2){ left:25%; animation-duration:11s; }
-.hearts span:nth-child(3){ left:50%; animation-duration:9s; }
-.hearts span:nth-child(4){ left:70%; animation-duration:13s; }
-.hearts span:nth-child(5){ left:90%; animation-duration:10s; }
-
-/* Animations */
-
+/* animation unchanged */
 @keyframes float{
-    0%{ transform:translateY(0); opacity:0; }
-    50%{ opacity:1; }
-    100%{ transform:translateY(-120vh); opacity:0; }
+    0%{transform:translateY(0); opacity:0;}
+    50%{opacity:1;}
+    100%{transform:translateY(-120vh); opacity:0;}
 }
 
 @keyframes fadeIn{
-    from{ opacity:0; transform:translateY(40px); }
-    to{ opacity:1; transform:translateY(0); }
-}
-
-/* ========================= */
-/* 📱 FULL RESPONSIVE DESIGN */
-/* ========================= */
-
-/* Tablets */
-@media (max-width: 1024px){
-
-    h1{
-        font-size:64px;
-    }
-
-    .text{
-        font-size:26px;
-    }
-
-    h2{
-        font-size:36px;
-    }
-}
-
-/* Large phones */
-@media (max-width: 768px){
-
-    body{
-        padding:20px 12px;
-        background-attachment:scroll;
-    }
-
-    .card{
-        padding:55px 25px;
-        border-radius:25px;
-    }
-
-    h1{
-        font-size:48px;
-    }
-
-    .and{
-        font-size:40px;
-    }
-
-    .invite{
-        font-size:20px;
-    }
-
-    .text{
-        font-size:20px;
-    }
-
-    h2{
-        font-size:28px;
-    }
-
-    .details{
-        font-size:18px;
-    }
-
-    button{
-        width:100%;
-        font-size:18px;
-        padding:16px;
-    }
-
-    .hearts span{
-        font-size:25px;
-    }
-}
-
-/* Small phones (iPhone SE / very small screens) */
-@media (max-width: 480px){
-
-    .card{
-        padding:45px 18px;
-    }
-
-    h1{
-        font-size:38px;
-    }
-
-    .and{
-        font-size:32px;
-    }
-
-    .text{
-        font-size:18px;
-    }
-
-    h2{
-        font-size:24px;
-    }
-
-    .details{
-        font-size:16px;
-    }
-
-    button{
-        font-size:16px;
-        padding:14px;
-    }
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
 }
