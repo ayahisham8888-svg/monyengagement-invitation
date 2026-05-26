@@ -7,18 +7,26 @@
     <title>Eman & Abdelrahman</title>
 
     <link rel="stylesheet" href="style.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap"
         rel="stylesheet">
+
+    <style>
+        /* hide audio completely */
+        audio {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- Music (HIDDEN AUTOPLAY) -->
-    <audio id="bg-music" autoplay loop>
+    <!-- 🎵 MUSIC -->
+    <audio id="bg-music" autoplay loop muted playsinline>
         <source src="music1.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Floating Hearts -->
+    <!-- 💖 Floating Hearts -->
     <div class="hearts">
         <span>♡</span>
         <span>♡</span>
@@ -27,7 +35,7 @@
         <span>♡</span>
     </div>
 
-    <!-- Main Container -->
+    <!-- 💌 Main Content -->
     <div class="container">
 
         <div class="card">
@@ -56,7 +64,7 @@
                 Giza, Egypt
             </p>
 
-            <a href="https://www.google.com/maps/place/29%C2%B055'33.0%22N+31%C2%B003'32.0%22E/@29.9258264,31.0563027,17z/"
+            <a href="https://www.google.com/maps/place/29%C2%B055'33.0%22N+31%C2%B003'32.0%22E/"
                 target="_blank">
 
                 <button>View Location</button>
@@ -67,16 +75,22 @@
 
     </div>
 
-    <!-- AUTOPLAY FIX (IMPORTANT FOR CHROME/GITHUB PAGES) -->
+    <!-- 🎵 AUTOPLAY SCRIPT -->
     <script>
-        const music = document.getElementById("bg-music");
+        window.addEventListener("load", () => {
+            const music = document.getElementById("bg-music");
 
-        // try autoplay
-        music.play().catch(() => {
-            // if blocked → play on first click anywhere
-            document.body.addEventListener("click", () => {
-                music.play();
-            }, { once: true });
+            // Try to start music
+            const playPromise = music.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // If autoplay works, unmute it
+                    music.muted = false;
+                }).catch((err) => {
+                    console.log("Autoplay blocked:", err);
+                });
+            }
         });
     </script>
 
