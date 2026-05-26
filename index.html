@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eman & Abdelrahman</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Music (HIDDEN AUTOPLAY) -->
+    <audio id="bg-music" autoplay loop>
+        <source src="music1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Hearts -->
+    <div class="hearts">
+        <span>♡</span>
+        <span>♡</span>
+        <span>♡</span>
+        <span>♡</span>
+        <span>♡</span>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <div class="card">
+
+            <p class="invite">
+                Together with their families
+            </p>
+
+            <h1>Abdelrahman</h1>
+
+            <div class="and">&</div>
+
+            <h1>Eman</h1>
+
+            <p class="text">
+                joyfully invite you to celebrate our engagement
+            </p>
+
+            <h2>Saturday, June 6 2026</h2>
+
+            <p class="details">
+                7:00 PM
+            </p>
+
+            <p class="details">
+                Giza, Egypt
+            </p>
+
+            <a href="https://www.google.com/maps/place/29%C2%B055'33.0%22N+31%C2%B003'32.0%22E/@29.9258264,31.0563027,17z/"
+                target="_blank">
+
+                <button>View Location</button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- AUTOPLAY FIX (IMPORTANT FOR CHROME/GITHUB PAGES) -->
+    <script>
+        const music = document.getElementById("bg-music");
+
+        // try autoplay
+        music.play().catch(() => {
+            // if blocked → play on first click anywhere
+            document.body.addEventListener("click", () => {
+                music.play();
+            }, { once: true });
+        });
+    </script>
+
+</body>
+</html>
