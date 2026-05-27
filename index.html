@@ -22,9 +22,9 @@
 <body>
 
     <!-- 🎵 MUSIC -->
-    <audio id="bg-music" autoplay loop muted playsinline>
-        <source src="music1.mp3" type="audio/mpeg">
-    </audio>
+   <audio id="bg-music" loop playsinline>
+    <source src="music1.mp3" type="audio/mpeg">
+   </audio>
 
     <!-- 💖 Floating Hearts -->
     <div class="hearts">
@@ -77,22 +77,21 @@
 
     <!-- 🎵 AUTOPLAY SCRIPT -->
     <script>
-        window.addEventListener("load", () => {
-            const music = document.getElementById("bg-music");
+   window.addEventListener("load", () => {
+    const music = document.getElementById("bg-music");
 
-            // Try to start music
-            const playPromise = music.play();
+    music.volume = 1;
 
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    // If autoplay works, unmute it
-                    music.muted = false;
-                }).catch((err) => {
-                    console.log("Autoplay blocked:", err);
-                });
-            }
+    const tryPlay = () => {
+        music.play().catch(err => {
+            console.log("Autoplay blocked:", err);
         });
-    </script>
+    };
+
+    // small delay improves success rate on GitHub Pages
+    setTimeout(tryPlay, 300);
+});
+</script>
 
 </body>
 </html>
