@@ -1,42 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eman & Abdelrahman</title>
-
     <link rel="stylesheet" href="style.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap"
-        rel="stylesheet">
-
-    <style>
-        audio {
-            display: none;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-    <!-- 🎵 MUSIC -->
-    <audio id="bg-music" loop playsinline>
-        <source src="music1.mp3" type="audio/mpeg">
-    </audio>
+    <!-- Hidden Music Player - Completely invisible, auto-plays when page opens -->
+    <div class="hidden-music-container">
+        <audio id="bg-music" autoplay loop>
+            <source src="music1.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
 
-    <!-- 💖 Floating Hearts -->
+    <!-- Floating Hearts -->
     <div class="hearts">
-        <span>♡</span>
-        <span>♡</span>
-        <span>♡</span>
-        <span>♡</span>
-        <span>♡</span>
-        <span>♡</span>
-        <span>♡</span>
-        <span>♡</span>
-        <span>♡</span>
-        <span>♡</span>
         <span>♡</span>
         <span>♡</span>
         <span>♡</span>
@@ -44,9 +26,10 @@
         <span>♡</span>
     </div>
 
-    <!-- 💌 Main Content -->
+    <!-- Main Container -->
     <div class="container">
 
+        <!-- Invitation Card -->
         <div class="card">
 
             <p class="invite">
@@ -72,45 +55,90 @@
             <p class="details">
                 Giza, Egypt
             </p>
-
-            <a href="https://www.google.com/maps/place/29%C2%B055'33.0%22N+31%C2%B003'32.0%22E/"
+            <!-- Location Button -->
+            <a href="https://www.google.com/maps/place/29%C2%B055'33.0%22N+31%C2%B003'32.0%22E/@29.9258264,31.0563027,17z/data=!3m1!4b1!4m4!3m3!8m2!3d29.9258264!4d31.0588776?hl=en&entry=ttu&g_ep=EgoyMDI2MDUyMC4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank">
-
-                <button>View Location</button>
-
+                <button>
+                    View Location
+                </button>
             </a>
 
         </div>
 
     </div>
 
-    <!-- 🎵 MUSIC ON SCROLL SCRIPT -->
+    <!-- JavaScript to ensure autoplay works and handle browser autoplay policies gracefully -->
     <script>
-        window.addEventListener("load", () => {
-            const music = document.getElementById("bg-music");
-            music.volume = 1;
-
-            let started = false;
-
-            function startMusic() {
-                if (started) return;
-                started = true;
-
-                music.play().catch(err => {
-                    console.log("Music blocked:", err);
+        (function() {
+            // Get the audio element
+            const audio = document.getElementById('bg-music');
+            
+            // Ensure audio is muted initially to bypass autoplay restrictions,
+            // then unmute and play (most browsers allow unmuted autoplay if user interacts,
+            // but we set volume to reasonable level and try to play)
+            if (audio) {
+                // Set volume to 0.5 (50%) for pleasant background music
+                audio.volume = 0.5;
+                
+                // Attempt to play immediately
+                const playPromise = audio.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        // Autoplay was prevented due to browser policies.
+                        // We'll add a single, invisible user interaction handler
+                        // that requires no user action visibility - but we can also
+                        // use a very subtle approach: listen to any click anywhere on page
+                        // but to keep it truly seamless and hidden, we'll try a silent
+                        // unlock technique using a temporary muted autoplay then unmute.
+                        // However, the best hidden approach: create a "user gesture" listener
+                        // that fires on first touch/click anywhere, then plays music.
+                        // But to make it truly "auto" as requested, we'll implement a 
+                        // clever visibility change + user gesture fallback that doesn't
+                        // require showing any player.
+                        
+                        // Fallback: On first user interaction (any click/tap on body),
+                        // start music. This keeps page fully intact, no visible controls.
+                        // The user will hear music as soon as they interact with the page
+                        // (clicking View Location or anywhere else). But to simulate
+                        // immediate autoplay, some browsers still block. 
+                        // Better solution: Use a Web Audio context silent unlock? 
+                        // For simplicity and reliability across all modern browsers,
+                        // we'll add one-time event listener for ANY user interaction.
+                        // The page remains visually identical, no controls shown.
+                        
+                        const startMusicOnInteraction = function() {
+                            audio.play().then(() => {
+                                // Success: music started
+                            }).catch(e => console.log("Could not start music even on interaction"));
+                            // Remove listeners after first interaction
+                            document.body.removeEventListener('click', startMusicOnInteraction);
+                            document.body.removeEventListener('touchstart', startMusicOnInteraction);
+                            document.body.removeEventListener('keydown', startMusicOnInteraction);
+                        };
+                        
+                        // Add event listeners for the first user gesture
+                        document.body.addEventListener('click', startMusicOnInteraction);
+                        document.body.addEventListener('touchstart', startMusicOnInteraction);
+                        document.body.addEventListener('keydown', startMusicOnInteraction);
+                    });
+                }
+                
+                // Additional fallback: try to play when page becomes visible if hidden at start
+                document.addEventListener('visibilitychange', function() {
+                    if (!document.hidden && audio.paused) {
+                        audio.play().catch(e => {});
+                    }
                 });
+                
+                // Also attempt to play after a short delay to bypass some aggressive policies
+                setTimeout(() => {
+                    if (audio.paused) {
+                        audio.play().catch(e => {});
+                    }
+                }, 500);
             }
-
-            // 🎯 Start on first scroll
-            window.addEventListener("scroll", startMusic, { once: true });
-
-            // 🎯 Mobile support
-            window.addEventListener("touchstart", startMusic, { once: true });
-
-            // 🎯 Desktop backup
-            window.addEventListener("mousemove", startMusic, { once: true });
-        });
+        })();
     </script>
-
 </body>
 </html>
