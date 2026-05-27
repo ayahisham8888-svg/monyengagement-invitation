@@ -12,7 +12,6 @@
         rel="stylesheet">
 
     <style>
-        /* hide audio completely */
         audio {
             display: none;
         }
@@ -22,9 +21,9 @@
 <body>
 
     <!-- 🎵 MUSIC -->
-   <audio id="bg-music" loop playsinline>
-    <source src="music1.mp3" type="audio/mpeg">
-   </audio>
+    <audio id="bg-music" loop playsinline>
+        <source src="music1.mp3" type="audio/mpeg">
+    </audio>
 
     <!-- 💖 Floating Hearts -->
     <div class="hearts">
@@ -77,21 +76,26 @@
 
     <!-- 🎵 AUTOPLAY SCRIPT -->
     <script>
-   window.addEventListener("load", () => {
-    const music = document.getElementById("bg-music");
+        window.addEventListener("load", () => {
+            const music = document.getElementById("bg-music");
 
-    music.volume = 1;
+            music.volume = 1;
 
-    const tryPlay = () => {
-        music.play().catch(err => {
-            console.log("Autoplay blocked:", err);
+            const tryPlay = () => {
+                const promise = music.play();
+
+                if (promise !== undefined) {
+                    promise.catch(err => {
+                        console.log("Autoplay blocked by browser:", err);
+                    });
+                }
+            };
+
+            // multiple attempts (best chance for GitHub Pages)
+            setTimeout(tryPlay, 300);
+            setTimeout(tryPlay, 1000);
         });
-    };
-
-    // small delay improves success rate on GitHub Pages
-    setTimeout(tryPlay, 300);
-});
-</script>
+    </script>
 
 </body>
 </html>
